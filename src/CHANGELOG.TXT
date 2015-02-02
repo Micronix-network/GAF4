@@ -1,0 +1,7 @@
+Ver 4.01
+
+Corretto il meccanismo di piazzmanto delle Card, ora se una card è stata piazzata non è possibile che risulti anche nella parkingzone
+
+
+
+  

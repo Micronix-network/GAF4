@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <include file="struts-default.xml" />
+    <constant name="struts.custom.i18n.resources" value="global_props" />
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    <constant name="struts.freemarker.templatesCache" value="true" />
+    <constant name="struts.devMode" value="false" />
+    <constant name="struts.multipart.maxSize" value="120000000" />
+    <constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+	 
+    <bean type="com.opensymphony.xwork2.ObjectFactory" name="struts-factory" class="org.apache.struts2.spring.StrutsSpringObjectFactory"/>
+    <constant name="struts.objectFactory" value="struts-factory" />
+	
+    <bean name="gaf" type="org.apache.struts2.views.TagLibrary" class="it.micronixnetwork.gaf.struts2.gui.ftl.GAFTagLibrary" />
+
+    <package name="gaf" abstract="true" extends="struts-default">
+
+        <result-types>
+            <result-type name="string" class="it.micronixnetwork.gaf.struts2.result.StringResult"/>
+        </result-types>
+		
+        <interceptors>
+            <interceptor name="gafException" class="it.micronixnetwork.gaf.struts2.interceptor.GAFException"/>
+            <interceptor name="actionTimer" class="it.micronixnetwork.gaf.struts2.interceptor.ActionTimer"/>
+            <interceptor name="checkCheckIn" class="it.micronixnetwork.gaf.struts2.interceptor.CheckCheckIn"/>
+            <interceptor name="httpExplicit" class="it.micronixnetwork.gaf.struts2.interceptor.HTTPExplicit"/>
+	         
+            <interceptor-stack name="gafStack">
+                <interceptor-ref name="httpExplicit"/>
+                <interceptor-ref name="checkCheckIn"/>
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="gafException"/>
+                <interceptor-ref name="actionTimer"/>
+            </interceptor-stack> 
+        </interceptors>
+		
+        <default-interceptor-ref name="gafStack"/>
+
+        <global-results>
+            <!-- GESTIONE ERRORI ECCEZIONI -->
+            <result name="error" type="freemarker">/template/gaf/error.ftl</result>
+            <result name="error_asinc" type="freemarker">/template/gaf/error_asinc.ftl</result>
+			
+            <!-- REDIRECT ALLA PAGINA DI ACCESSO -->
+            <result name="redirect_login" type="freemarker">/template/gaf/redirectLoginPage.ftl</result>
+        </global-results>
+		
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Throwable" result="error"/>
+        </global-exception-mappings>
+        
+        <action name="loginSuccess" class="it.micronixnetwork.gaf.struts2.action.LoginSuccessAction">
+            <result name="success" type="chain">
+                <param name="actionName">nav_home_${user.applicaionRole}
+                </param>
+            </result>
+        </action>
+
+        <action name="toError"
+                        class="it.micronixnetwork.gaf.struts2.action.ErrorAction">
+            <result type="freemarker">/template/gaf/error.ftl</result>
+        </action>
+		
+        <action name="checkIn" class="it.micronixnetwork.gaf.struts2.action.CheckInAction">
+            <result name="success" type="chain">
+                <param name="actionName">nav_home_${user.applicaionRole}</param>
+            </result>
+            <result name="no_checkin" type="freemarker">/template/gaf/login.ftl</result>
+        </action>
+		
+        <action name="checkout" class="it.micronixnetwork.gaf.struts2.action.LogOut">
+            <result name="success" type="freemarker">
+                /template/gaf/login.ftl
+            </result>
+        </action>
+		
+        <action name="resource_*" class="it.micronixnetwork.gaf.struts2.action.GetResource">
+            <param name="res">{1}</param>
+            <result name="success" type="stream">
+                <param name="inputName">documentStream</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentType">${contentType}</param>
+            </result>
+            <result name="none" type="string"></result>
+        </action>
+
+        <action name="updateLayout" class="it.micronixnetwork.gaf.struts2.action.UpdateLayOut">
+        </action>
+		
+        <action name="nav_*"
+                        class="it.micronixnetwork.gaf.struts2.action.NavigationAction">
+            <result name="success" type="freemarker">
+                /template/gaf/page.ftl
+            </result>
+            <result name="error" type="freemarker">
+                /template/gaf/404.ftl
+            </result>
+        </action>
+		
+        <action name="nav_login" class="it.micronixnetwork.gaf.struts2.action.ToLoginAction">
+            <interceptor-ref name="defaultStack"/>
+            <result name="success" type="freemarker">
+                /template/gaf/login.ftl
+            </result>
+        </action>
+		
+        <action name="helpPage" class="it.micronixnetwork.gaf.struts2.action.HelpAction">
+            <interceptor-ref name="defaultStack"/>
+            <result name="success" type="freemarker">
+                /template/gaf/help.ftl
+            </result>
+        </action>
+		
+
+        <action name="loginError"
+                        class="it.micronixnetwork.gaf.struts2.action.auth.LoginError">
+            <result name="success" type="freemarker">
+                /template/gaf/redirectLoginPage.ftl
+            </result>
+        </action>
+
+        <action name="authError" class="it.micronixnetwork.gaf.struts2.action.auth.AuthError">
+        </action>
+		
+        <action name="saveCardConfiguration" class="it.micronixnetwork.gaf.struts2.action.SaveCardConfiguration">
+            <result name="success" type="string">
+                <param name="stringValue">${jsCode}</param>
+            </result>
+        </action>
+		
+        <action name="saveCardConfigurationNoRefresh" class="it.micronixnetwork.gaf.struts2.action.SaveCardConfiguration">
+            <result name="success" type="string">
+                <param name="stringValue"></param>
+            </result>
+        </action>
+		
+        <action name="changeDomainContext" class="it.micronixnetwork.gaf.struts2.action.ChangeDomainContext">
+            <result name="success" type="string">
+                <param name="stringValue">${message}</param>
+            </result>
+        </action>
+		
+        <action name="importProperites" class="it.micronixnetwork.gaf.struts2.action.ImportCardConfiguration">
+            <result name="success" type="string">
+                <param name="stringValue">${jsCode}</param>
+            </result>
+        </action>
+	
+		
+    </package>
+
+</struts>

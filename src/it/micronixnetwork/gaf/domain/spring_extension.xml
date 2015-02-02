@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd"> -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+                           
+    <!-- Proprietà applicative -->
+  	<bean id="appProperties" 
+          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="singleton" value="true"/>
+		<property name="location" value="/WEB-INF/app.properties"/>
+	</bean>
+	
+	<!-- Palceholder per l'utilizzo delle proprietà applicative nei file di contesto SPRING -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    	<property name="location" value="/WEB-INF/app.properties" />
+  	</bean>                        
+
+	
+	<bean id="appDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/${app.data.source}" />
+	</bean>
+    
+    <bean  id="sessionFactory"
+            class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="appDataSource"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
+                <!--  
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                -->
+            </props>
+        </property>
+        
+        <property name="annotatedClasses">
+            <list>
+                <value>it.micronixnetwork.gaf.domain.CardConf</value>
+                <value>it.micronixnetwork.gaf.domain.Menu</value>
+                <value>it.micronixnetwork.gaf.domain.Card</value>
+                <value>it.micronixnetwork.gaf.domain.Domain</value>
+                <value>it.micronixnetwork.gaf.domain.GafConfig</value>
+                <value>it.micronixnetwork.gaf.domain.GafZone</value>
+                <value>it.micronixnetwork.gaf.domain.GafZoneCard</value>
+            </list>
+        </property>
+        
+        <property name="packagesToScan">
+            <list>
+            	<value>it.micronixnetwork.application.**.domain</value>
+                <value>**.domain</value>
+            </list>
+        </property>
+        
+        <property name="mappingResources">
+            <list>
+                
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="appTxManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+ 	
+    <!--Abilitazione della configurazione della transazione automatica via annotazioni -->
+    <tx:annotation-driven  transaction-manager="appTxManager"/>
+
+</beans>
