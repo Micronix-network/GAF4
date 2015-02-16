@@ -56,19 +56,10 @@
 	var cardsFullLoadedStack = new Array();
 	
 	var CARD_WIDTH=130;
-	var	CARD_HEIGHT=182;
+	var CARD_HEIGHT=182;
 
 	var card_drawer=false;
-	
-	/**
-	 * Altezza cards drawer
-	 */ 
-	<#if superUser>
-		var cdrawer_height=30;
-	<#else>
-		var cdrawer_height=0;
-	</#if>
-  	
+
    /**
 	* Evento scatenato dall'attivazione di una card
 	*/
@@ -226,14 +217,14 @@ $(document).ready(function(){
 			$("#parking_zone").show();
 		}
 		
-		$(".parking_zone_handle").click(function(){
-			$("#parking_zone").slideToggle('fast',function(){
-				card_drawer=$("#parking_zone").is(":visible");
+                
+                $("#trigger_card_drawer").click(function(){
+                    
+                        $("#cards_drawer").slideToggle('fast',function(){
+				
 			});	
-			$('html, body').animate({ 
-			      scrollTop: $('#parking_zone').offset().top 
-			  }, 500);
-		});
+                });
+	
 		
 		$(".card").draggable({ 
 			handle: '.cmd_move',
@@ -288,7 +279,17 @@ $(document).ready(function(){
 					</div>
 					<div id="header_notify_area"><div class="header_notify_pin red_pin" style="display:none"></div><div class="header_notify_pin green_pin" style="display:none"></div></div>
 					<h1>${pageTitle}</h1>
+                                        <#if superUser>	
+                                        <div style="position:absolute;top:2px;right:0px;width:28px">
+						<a href="#" id="trigger_card_drawer" class="card_drawer_trigger icon icon-document"></a>
+					</div>
+                                        </#if>
 				</header>
+                                <div id="cards_drawer" class="drawer">
+                                <div id="parking_zone">
+                                    <@gaf.placeCards zone="cards_parking" layout="${cards_domain}" style="min-height:184px;border:none" />
+                                </div>
+                               </div>
 				<div class="page-grid-content clearfix" style="min-height:${contentHeight}px">
                                         <#attempt>
                                             <#include grid+".grid"/>
@@ -296,19 +297,13 @@ $(document).ready(function(){
                                              <#include "grids/single.grid"/>
                                         </#attempt>
 				</div>
+                                 
 			</div>
 		</div>
 	</div>
 </div>
 		
-	<#if superUser>
-		<div id="parking_zone_drawer">
-			<div id="parking_zone" style="display: none;">
-				<@gaf.placeCards zone="cards_parking" layout="${cards_domain}" style="min-height:184px;border:none" />
-			</div>
-			<div class="parking_zone_handle">CARD DRAWER</div>
-		</div>
-	</#if>	
+	
 	
 	<div class="md-overlay"></div>
 	

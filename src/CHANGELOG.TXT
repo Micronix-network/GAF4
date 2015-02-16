@@ -2,6 +2,8 @@ Ver 4.01
 
 Corretto il meccanismo di piazzmanto delle Card, ora se una card è stata piazzata non è possibile che risulti anche nella parkingzone
 
+Ver 4.02
 
+Modificato il template page.ftl per migliorare l'ergonomia della pagina applicativa
 
   

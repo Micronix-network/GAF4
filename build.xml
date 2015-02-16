@@ -72,21 +72,11 @@
     -->
     
      <property name="deploy.dir" value="/Users/kobo/tomcat 8/lib" />
-    <property name="deploy.dir2" value="/Users/kobo/GAS/lib" />
-    <property name="deploy.dir3" value="/Users/kobo/GAS DEV/lib" />
     
     <target name="-post-jar">
         <delete dir="${deploy.dir}" includeemptydirs="true">
             <include name="GAF_*.jar" />
         </delete>
-        <!--delete dir="${deploy.dir2}" includeemptydirs="true">
-            <include name="GAF_*.jar" />
-        </delete>
-        <delete dir="${deploy.dir3}" includeemptydirs="true">
-            <include name="GAF_*.jar" />
-        </delete-->
         <copy overwrite="true" file="${dist.jar}" todir="${deploy.dir}" />
-        <!--copy overwrite="true" file="${dist.jar}" todir="${deploy.dir2}" />
-        <copy overwrite="true" file="${dist.jar}" todir="${deploy.dir3}" /-->  
     </target>
 </project>
