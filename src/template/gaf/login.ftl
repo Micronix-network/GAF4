@@ -10,6 +10,7 @@
     <title>${action.appName}</title>
     <script type="text/javascript" src="/${gui_theme}/js/jquery.js"></script>
     <link rel="stylesheet" type="text/css" href="/${gui_theme}/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css">
     <link rel="icon" href="images/gwa_favicon.png" type="image/png" />
     <script type="text/javascript">
     	<#if user??>

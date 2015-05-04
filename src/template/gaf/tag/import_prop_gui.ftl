@@ -21,17 +21,17 @@
 	</div>
 	
 	<script type="text/javascript">
-		function ajaxCall_${cardId}_import_properties(){
-			jQuery('#${cardId}_import_properties_form [name=cardId]').remove();
-		    var params=$('#${cardId}_import_properties_form').serializeArray();
-			params.push({name:'cardId',value:'${cardId}'});
-			$('#${cardId}_import_properties').load('${tag.calcAction("importProperites", null, null)}',params)
-		}	
-		
-		$('#${cardId}_import_properties_button').click(function(){
-			ajaxCall_${cardId}_import_properties();
-			return false;
-		});
+        function ajaxCall_${cardId}_import_properties(){
+            jQuery('#${cardId}_import_properties_form [name=cardId]').remove();
+            var params=$('#${cardId}_import_properties_form').serializeArray();
+            params.push({name:'cardId',value:'${cardId}'});
+            $('#${cardId}_import_properties').load('${tag.calcAction("importProperites", null, null)}',params)
+        }	
+
+        $('#${cardId}_import_properties_button').click(function(){
+            ajaxCall_${cardId}_import_properties();
+            return false;
+        });
 	</script>
 	</#if>
 </#if>

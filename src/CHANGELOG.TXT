@@ -1,9 +1,51 @@
 Ver 4.01
-
 Corretto il meccanismo di piazzmanto delle Card, ora se una card è stata piazzata non è possibile che risulti anche nella parkingzone
 
 Ver 4.02
-
 Modificato il template page.ftl per migliorare l'ergonomia della pagina applicativa
 
-  
+
+Ver 4.03
+Modificato il template login.ftl, aggiunto l'import dello stile specifico dell'applicativo
+
+
+Ver 4.04
+Modificato il tag main_menu.ftl.
+Aggiunta la gestione delle icone personalizzate anche
+per i sotto menu
+<#if menu.icon??>icon-${menu.icon}<#else>icon-folder-open</#if> 
+
+Aggiunto il supporto all'internazionalizazzione anche alle label dei foder(sub menu)
+${tag.getText('menu.fold_'+menu.label, menu.label)} 
+
+Ver 4.05
+Modificata la macro <@prop.multi_select>
+
+
+Ver 4.06
+Aggiunto il metodo
+public String getCardParam(String paramName,String def)
+alla CardAction
+
+
+Ver 4.07
+Mofdifica del metodo exe della Classe RetriveProperties.
+Disaccopiamento delle classi Published dal GAF.
+Ora le classi definete published vengono individuate dal plugin CRUD e non più
+dal Framework di base (Il motivo per cui in prima istanza ho prefirito la prima soluzione
+mi sfugge completamente).
+
+
+Ver 4.08 
+Correzione allo stile della pagina di errore, sono stati modificati gli stili per rendere più leggibile
+il messaggio di errore.
+
+
+Ver 4.09
+Aggiunta la macro 'double_select' in properties.ftl.
+Modificata la macro 'commons' che produce il pannello delle properties comuni a tutte le card.
+Modificata la macro 'codeMirror', aggiunto il controllo sulla visibilità del componente
+
+
+Ver 4.1
+Aggiunto il metodo getDomainCardIds() in WebAppAction per il recupero delle Card del dominio corrente

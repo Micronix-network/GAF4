@@ -14,7 +14,6 @@
             text-align: center;
             font-size: 48px;
             font-weight:300;
-            font-family: sans-serif , Arial, ;
             background-color: rgba(0, 0, 0, 0.05);
             color: #333;
             padding-left: 5px;
@@ -38,12 +37,12 @@
         <center>
             <img src="images/error.png" style="width:320px">
         </center>
-        <div class="message" style="font-size:16px">
+        <div class="message" style="font-size:16px; font-weight: bold">
             <#if errorBean??>
             ${errorBean.errorMsg}
                 <#if errorBean.errorDett??>
                     <#if devMode>
-                    <div class="dett">
+                    <div class="dett" style="overflow: auto; font-size:12px;text-align: left; padding: 5px; border-top:solid 1px #c2c2c2; font-weight: normal;">
                         ${errorBean.errorDett}
                     </div>
                     </#if>
@@ -55,8 +54,8 @@
         <center>
             <img src="images/error.png" style="width:320px">
         </center>
-        <div class="message" style="font-size:16px">
-            <div class="dett">
+        <div class="message" style="font-size:16px; font-weight: bold">
+            <div class="dett" style="overflow: auto; font-size:12px;text-align: left; padding: 5px; border-top:solid 1px #c2c2c2; font-weight: normal;">
                         Unknown generic error
             </div>
         </div>

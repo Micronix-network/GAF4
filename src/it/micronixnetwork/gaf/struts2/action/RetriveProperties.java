@@ -4,9 +4,7 @@
  */
 package it.micronixnetwork.gaf.struts2.action;
 
-import it.micronixnetwork.gaf.domain.Published;
 import it.micronixnetwork.gaf.exception.ApplicationException;
-import it.micronixnetwork.gaf.exception.ServiceException;
 import it.micronixnetwork.gaf.service.FileSystemService;
 
 import java.io.File;
@@ -58,18 +56,7 @@ public class RetriveProperties extends CardAction {
     @Override
     protected String exe() throws ApplicationException {
 	cardType = getCardModel().getType();
-	List<String> allDoamin=queryService.getAllMappedObjects();
-	domainObjects=new ArrayList<String>();
-	for (String clazzName : allDoamin) {
-	    try {
-		Class clazz=Thread.currentThread().getContextClassLoader().loadClass(clazzName);
-		if(Published.class.isAssignableFrom(clazz)){
-		    domainObjects.add(clazzName);
-		}
-	    } catch (ClassNotFoundException e) {
-		debug(e);
-	    }
-	}
+	domainObjects=queryService.getAllMappedObjects();
 	return SUCCESS;
     }
 }

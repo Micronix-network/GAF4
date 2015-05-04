@@ -7,7 +7,6 @@ package it.micronixnetwork.gaf.struts2.action;
 import it.micronixnetwork.gaf.domain.CardConf;
 import it.micronixnetwork.gaf.exception.ActionException;
 import it.micronixnetwork.gaf.exception.ApplicationException;
-import it.micronixnetwork.gaf.exception.ServiceException;
 import it.micronixnetwork.gaf.struts2.gui.model.CardModel;
 import it.micronixnetwork.gaf.struts2.gui.model.CardModelsCache;
 
@@ -76,6 +75,16 @@ public class CardAction extends WebAppAction implements AjaxAction {
     public String getCardParam(String paramName) {
 	return getCardParam(paramName, false);
     }
+    
+    public String getCardParam(String paramName,String def) {
+        String result=getCardParam(paramName, false);
+        if(result==null){
+            return def;
+        }
+	return result;
+    }
+    
+    
 
     /**
      * Restituisce il modello di una CARD

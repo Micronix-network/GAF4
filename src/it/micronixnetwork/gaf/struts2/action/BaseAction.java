@@ -7,7 +7,6 @@ package it.micronixnetwork.gaf.struts2.action;
 import it.micronixnetwork.gaf.domain.RoledUser;
 import it.micronixnetwork.gaf.exception.ApplicationException;
 import it.micronixnetwork.gaf.exception.ServiceException;
-import it.micronixnetwork.gaf.service.layout.LayoutConfigLoader;
 import it.micronixnetwork.gaf.util.LogUtil;
 import it.micronixnetwork.gaf.util.StringUtil;
 
