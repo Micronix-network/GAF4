@@ -43,7 +43,7 @@
             <!-- GESTIONE ERRORI ECCEZIONI -->
             <result name="error" type="freemarker">/template/gaf/error.ftl</result>
             <result name="error_asinc" type="freemarker">/template/gaf/error_asinc.ftl</result>
-			
+            <result name="error_json" type="freemarker">/template/gaf/error_json.ftl</result>
             <!-- REDIRECT ALLA PAGINA DI ACCESSO -->
             <result name="redirect_login" type="freemarker">/template/gaf/redirectLoginPage.ftl</result>
         </global-results>

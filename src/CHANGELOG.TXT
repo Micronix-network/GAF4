@@ -48,4 +48,11 @@ Modificata la macro 'codeMirror', aggiunto il controllo sulla visibilità del co
 
 
 Ver 4.1
-Aggiunto il metodo getDomainCardIds() in WebAppAction per il recupero delle Card del dominio corrente
+Aggiunto il metodo getDomainCardIds() in WebAppAction per il recupero delle Card del dominio corrente.
+Modificato il metodo createOrderBy() di HibernateSmartySearchEngine per la gestione della rimozione esplicita
+dell'ordinamento direzione "none".
+Modificato il comportamento dell'HibernateSmartySearchEngine ora è necessario che entrambi i valori di page e size siano
+diversi da null, in caso contrario viene prodotto un risultato completo e non paginato.
+Rimosso il tag PropertyDialog perchè non più usato.
+Aggiunto il metodo warn in GAFService.
+Aggiunta JSONAction per la gestione delle azioni che restituiscono risultati JSON in modo da restituire semplici stringhe in caso di errori (error_json.ftl).

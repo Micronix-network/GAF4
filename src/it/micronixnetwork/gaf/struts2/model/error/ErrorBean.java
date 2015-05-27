@@ -12,67 +12,77 @@ import java.io.Serializable;
  */
 public class ErrorBean implements Serializable {
 
-  static final long serialVersionUID = -1234455382955298L;
-  public static String ERROR_LEVEL_FATAL = "fatal";
-  public static String ERROR_LEVEL_LOGIC = "logic";
+    static final long serialVersionUID = -1234455382955298L;
+    public static String ERROR_LEVEL_FATAL = "fatal";
+    public static String ERROR_LEVEL_LOGIC = "logic";
 
-  public static String ERROR_TYPE__TICKET = "no-ticket-error";
-  public static String ERROR_TYPE_NO_ROLE = "no-role-error";
-  public static String ERROR_TYPE_NO_ROLE_PERMISSION = "no-role-permission-error";
-  public static String ERROR_TYPE_APPLICATION = "application-error";
-  
-  private Boolean async = Boolean.FALSE;
-  private String errorMsg;
-  private String errorType;
-  private String errorDett;
-  private String errorLevel;
+    public static String ERROR_TYPE__TICKET = "no-ticket-error";
+    public static String ERROR_TYPE_NO_ROLE = "no-role-error";
+    public static String ERROR_TYPE_NO_ROLE_PERMISSION = "no-role-permission-error";
+    public static String ERROR_TYPE_APPLICATION = "application-error";
 
-  public ErrorBean() {
-  }
-  
-  public ErrorBean(String level, String errorDett, String errorMsg) {
-    this.errorMsg = errorMsg;
-    this.errorLevel = level;
-    this.errorDett = errorDett;
-  }
+    private Boolean async = Boolean.FALSE;
+    private Boolean json = Boolean.FALSE;
+    private String errorMsg;
+    private String errorType;
+    private String errorDett;
+    private String errorLevel;
 
-  public String getErrorDett() {
-    return errorDett;
-  }
+    public ErrorBean() {
+    }
 
-  public void setErrorDett(String errorDett) {
-    this.errorDett = errorDett;
-  }
+    public ErrorBean(String level, String errorDett, String errorMsg) {
+        this.errorMsg = errorMsg;
+        this.errorLevel = level;
+        this.errorDett = errorDett;
+    }
 
-  public String getErrorType() {
-    return errorType;
-  }
+    public String getErrorDett() {
+        return errorDett;
+    }
 
-  public void setErrorType(String errorType) {
-    this.errorType = errorType;
-  }
+    public void setErrorDett(String errorDett) {
+        this.errorDett = errorDett;
+    }
 
-  public String getErrorMsg() {
-    return errorMsg;
-  }
+    public String getErrorType() {
+        return errorType;
+    }
 
-  public void setErrorMsg(String errorMsg) {
-    this.errorMsg = errorMsg;
-  }
+    public void setErrorType(String errorType) {
+        this.errorType = errorType;
+    }
 
-  public Boolean getAsync() {
-    return async;
-  }
+    public String getErrorMsg() {
+        return errorMsg;
+    }
 
-  public void setAsync(Boolean async) {
-    this.async = async;
-  }
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
 
-  public String getErrorLevel() {
-    return errorLevel;
-  }
+    public Boolean getAsync() {
+        return async;
+    }
 
-  public void setErrorLevel(String errorLevel) {
-    this.errorLevel = errorLevel;
-  }
+    public void setAsync(Boolean async) {
+        this.async = async;
+    }
+
+    public String getErrorLevel() {
+        return errorLevel;
+    }
+
+    public void setErrorLevel(String errorLevel) {
+        this.errorLevel = errorLevel;
+    }
+
+    public void setJson(Boolean json) {
+        this.json = json;
+    }
+
+    public Boolean getJson() {
+        return json;
+    }
+
 }

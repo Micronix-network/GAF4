@@ -33,10 +33,17 @@ public class GAFService {
    	StackTraceElement[] ste = Thread.currentThread().getStackTrace();
    	LogUtil.log(ste, this.getClass().getSimpleName(), log, msg, e, LogUtil.LOGTYPE.FATAL,"S");
        }
+       
+       protected void warn(Object msg) {
+   	StackTraceElement[] ste = Thread.currentThread().getStackTrace();
+   	LogUtil.log(ste, this.getClass().getSimpleName(), log, msg, null, LogUtil.LOGTYPE.WARN,"S");
+       }
 
        protected void debugXML(Object msg, int level) {
    	StackTraceElement[] ste = Thread.currentThread().getStackTrace();
    	LogUtil.logXML(ste, this.getClass().getSimpleName(), log, msg, LogUtil.LOGTYPE.DEBUG, level,"S");
        }
+       
+       
 
 }

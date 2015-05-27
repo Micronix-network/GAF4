@@ -14,7 +14,6 @@
 <script type="text/javascript">
 	<#--Variabile che contiene la lista delle card presenti nella zona-->
 	var ${zone}_cards=new Array();
-	
 </script>
 <#if cardModels??>
     <#list cardModels as model>

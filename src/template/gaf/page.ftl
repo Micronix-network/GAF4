@@ -165,7 +165,7 @@
  	
  	
  	/**
- 	 * Fuzione per il cambio di dominio funzionale della gui (cambio di pagina o back/forward nel browser)
+ 	 * Funzione per il cambio di dominio funzionale della gui (cambio di pagina o back/forward nel browser)
  	 * @param domain il nuovo dominio
  	 * @returns
  	 */
@@ -213,49 +213,49 @@ $(document).ready(function(){
 
 <#if superUser>		
 		
-		if(card_drawer){
-			$("#parking_zone").show();
-		}
-		
-                
-                $("#trigger_card_drawer").click(function(){
-                    
-                        $("#cards_drawer").slideToggle('fast',function(){
-				
-			});	
-                });
-	
-		
-		$(".card").draggable({ 
-			handle: '.cmd_move',
-			helper: function (evt) {
-				try{	
-       	     	 	return helperDrag(evt, this);
-       	     	 }catch(err){}
-			 },
-			 revert: 'invalid', 
-			 start: function(evt,ui){
-				 $(".layout_cell .card").animate({opacity:0.3},300);
-			 },
-			 stop :  function(evt,ui){
-				 $(".layout_cell .card").animate({opacity:1},100);
-			 },	 
-		});
-		
-		$(".layout_cell").droppable({
-			drop: function( event, ui ) {
-				try{
-					var parent=ui.draggable.parent();
-					var card=ui.draggable;
-        	     	stopDrag(parent,card,$(this));
-        	     }catch(err){
-        	    	
-        	     }
-		      },
-		    tolerance : 'pointer',
-		    hoverClass: "select_border",
-		    accept: '.card',
-		});
+    if(card_drawer){
+        $("#parking_zone").show();
+    }
+
+
+    $("#trigger_card_drawer").click(function(){
+
+        $("#cards_drawer").slideToggle('fast',function(){
+
+        });	
+    });
+
+
+    $(".card").draggable({ 
+        handle: '.cmd_move',
+        helper: function (evt) {
+            try{	
+                return helperDrag(evt, this);
+            }catch(err){}
+        },
+        revert: 'invalid', 
+        start: function(evt,ui){
+                $(".layout_cell .card").animate({opacity:0.3},300);
+        },
+        stop :  function(evt,ui){
+                $(".layout_cell .card").animate({opacity:1},100);
+        },	 
+    });
+
+    $(".layout_cell").droppable({
+        drop: function( event, ui ) {
+                try{
+                        var parent=ui.draggable.parent();
+                        var card=ui.draggable;
+        stopDrag(parent,card,$(this));
+         }catch(err){
+
+         }
+          },
+        tolerance : 'pointer',
+        hoverClass: "select_border",
+        accept: '.card',
+    });
 </#if>			
 		
 	});

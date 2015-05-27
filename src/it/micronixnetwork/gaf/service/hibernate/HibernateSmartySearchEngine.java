@@ -167,15 +167,21 @@ public abstract class HibernateSmartySearchEngine implements SearchEngine {
     protected String createOrderBy() throws SearchEngineException {
 	String result = "";
 	int size = orderFields.size();
+        boolean comma=false;
 	for (int i = 0; i < size; i++) {
 	    String realField = orderFieldAliases.get(orderFields.get(i));
 	    if (realField == null) {
 		info("Alias del campo: " + orderFields.get(i) + " non definito");
-	    }
-	    if (i > 0) {
-		result += ",";
-	    }
-	    result += orderFieldAliases.get(orderFields.get(i));
+	    }else{
+                if (comma) {
+                    result += ",";
+                }
+                if(!realField.contains("none")){
+                    result += realField;
+                    comma=true;
+                }
+            }
+	    
 	}
 	return result;
     }
@@ -307,11 +313,9 @@ public abstract class HibernateSmartySearchEngine implements SearchEngine {
     }
 
     private String processPattern(String field, String pattern) {
-
 	if (pattern == null) {
 	    return field;
 	}
-
 	// Controllo pattern
 	if (pattern.matches("[%]{0,1}[^#]*#[uU]{0,1}[%]{0,1}")) {
 	    String filler = "";
@@ -329,15 +333,11 @@ public abstract class HibernateSmartySearchEngine implements SearchEngine {
 	    if (pattern.matches("[^#]*#[u][%]{0,1}")) {
 		field = field.toLowerCase();
 	    }
-
 	    // Sostituzione field nel pattern
-
 	    String fillPurged = pattern.replaceAll("[^#%]", "");
 	    return fillPurged.replaceAll("#", field);
 	}
-
 	return field;
-
     }
 
     /**
@@ -486,7 +486,7 @@ public abstract class HibernateSmartySearchEngine implements SearchEngine {
 	List dtoList = new ArrayList();
 	Long recordNum = new Long(0);
 	
-	if (page != null || size != null) {
+	if (page != null && size != null) {
 	    
 	    if (page == null)
 		page = 1;

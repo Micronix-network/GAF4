@@ -6,30 +6,30 @@
 	<!-- Servizio che carica il file xml che definisce le posizioni delle CARD nelle pagine dell'applicativo -->
 	<!-- il file va messo nella cartella configurata nel resourceAgent -->
 	<bean id="layoutXMLConfigLoader" class="it.micronixnetwork.gaf.service.layout.LayoutXMLConfigLoader">
-		<property name="cardConfService" ref="cardConfService" />
-		<property name="configFile" value="${layout.file}" />
+            <property name="cardConfService" ref="cardConfService" />
+            <property name="configFile" value="${layout.file}" />
 	</bean>
 	
 	<bean id="layoutDBConfigLoader" class="it.micronixnetwork.gaf.service.layout.LayoutDBConfigLoader">
-  		<property name="sessionFactory" ref="sessionFactory" />
+            <property name="sessionFactory" ref="sessionFactory" />
 	</bean>
   
 	<bean id="layoutDBLoaderTest" class="it.micronixnetwork.gaf.service.layout.LayoutConfigLoaderTest">
-	  <property name="description" value="Test caricamento layout" />
-	  <property name="layoutConfigLoader" ref="layoutDBConfigLoader" />
-	  <property name="layoutConfigLoaderImport" ref="layoutXMLConfigLoader" />
+            <property name="description" value="Test caricamento layout" />
+            <property name="layoutConfigLoader" ref="layoutDBConfigLoader" />
+            <property name="layoutConfigLoaderImport" ref="layoutXMLConfigLoader" />
 	</bean> 
 		
 	<alias name="layoutDBConfigLoader" alias="layoutConfigLoader"/>
 
 	<!-- Servizio che permette di gestire la persistenza delle proprietà di una CARD nel DB -->
 	<bean id="cardConfService" class="it.micronixnetwork.gaf.service.CardConfServiceImpl">
-		<property name="sessionFactory" ref="sessionFactory" />
+            <property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
 	<!-- Servizio l'esecuzione delle query via hibernate direttamente nelle action -->
 	<bean id="queryService" class="it.micronixnetwork.gaf.service.QueryServiceImpl">
-		<property name="sessionFactory" ref="sessionFactory" />
+            <property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
 	<!-- Servizio per la gestione del menu principale -->

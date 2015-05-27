@@ -14,7 +14,6 @@ public class GAFModels {
     protected DivModel div;
     protected SetModel set;
     protected GetCardParamModel getCardParam;
-    protected PropertyDialogModel  propDialog;
     protected ImportCardPropertiesGuiModel importGui;
     protected GeneralPropertiesTabModel generalPropertiesTab;
     protected SelectModel select;
@@ -77,13 +76,6 @@ public class GAFModels {
 	    importGui = new ImportCardPropertiesGuiModel(stack, req, res);
         }
         return importGui;
-    }
-    
-    public PropertyDialogModel getPropDialog(){
-	if (propDialog == null) {
-	    propDialog = new PropertyDialogModel(stack, req, res);
-        }
-        return propDialog;
     }
     
     public PlaceCardsModel getPlaceCards(){

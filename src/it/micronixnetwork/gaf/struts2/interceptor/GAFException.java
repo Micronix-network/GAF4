@@ -6,7 +6,6 @@ import java.io.StringWriter;
 import it.micronixnetwork.gaf.exception.ActionException;
 import it.micronixnetwork.gaf.exception.ServiceException;
 import it.micronixnetwork.gaf.struts2.action.AjaxAction;
-import it.micronixnetwork.gaf.struts2.action.CardAction;
 import it.micronixnetwork.gaf.struts2.model.error.ErrorAction;
 import it.micronixnetwork.gaf.struts2.model.error.ErrorBean;
 import it.micronixnetwork.gaf.struts2.model.error.ErrorService;
@@ -14,12 +13,13 @@ import it.micronixnetwork.gaf.struts2.model.error.ErrorUndefine;
 
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.util.ValueStack;
+import it.micronixnetwork.gaf.struts2.action.JSONAction;
 
 public class GAFException extends GAFMethodFilterInterceptor {
     
     private static final long serialVersionUID = -1467970061029822846L;
 
-    private void createErrorBean(final ValueStack stack, Boolean ajax, Throwable ex) {
+    private void createErrorBean(final ValueStack stack, Boolean ajax,Boolean json, Throwable ex) {
 	ErrorBean errorBean;
 	StringWriter writer = new StringWriter();
 	PrintWriter printWriter = new PrintWriter(writer, true);
@@ -47,14 +47,18 @@ public class GAFException extends GAFMethodFilterInterceptor {
 	    }
 	}
 	errorBean.setAsync(ajax);
-
+        errorBean.setJson(json);
 	ErrorBeanContainer ebCont = new ErrorBeanContainer(errorBean);
 	stack.push(ebCont);
     }
     
     private boolean checkAjax(Object action) {
 	return (action instanceof AjaxAction);
-}
+    }
+    
+    private boolean checkJSON(Object action) {
+	return (action instanceof JSONAction);
+    }
 
     @Override
     protected String doIntercept(ActionInvocation invocation) throws Exception {
@@ -64,17 +68,19 @@ public class GAFException extends GAFMethodFilterInterceptor {
 	try {
 	    result = invocation.invoke();
 	} catch (Throwable ex) {
-	    result = produceErrorResult(stack,checkAjax(action),ex);
+	    result = produceErrorResult(stack,checkAjax(action),checkJSON(action),ex);
 	}
 	return result;
     }
 
-    private String produceErrorResult(ValueStack stack,boolean ajax,Throwable ex) {
-	createErrorBean(stack,ajax,ex);
+    private String produceErrorResult(ValueStack stack,boolean ajax,boolean json,Throwable ex) {
+	createErrorBean(stack,ajax,json,ex);
+        if(json)
+            return "error_json";
 	if (ajax)
 	    return "error_asinc";
-	else
-	    return "error";
+	
+	return "error";
     }
 
     protected class ErrorBeanContainer {
