@@ -12,104 +12,100 @@ import org.pentaho.di.job.JobMeta;
 
 /**
  * Task per l'ntegrzione con i jobs di kettle
- * 
- * Permette l'esecuzione di un job specificando il file del job e un insieme di parametri (variabili)
- * 
+ *
+ * Permette l'esecuzione di un job specificando il file del job e un insieme di
+ * parametri (variabili)
+ *
  * @author Andrea Riboldi
  *
  */
-
 public class ExecuteJob extends GAFTask {
-	
-	static {
-		try {
-			KettleEnvironment.init(false);
-		} catch (KettleException e) {
-			e.printStackTrace();
-		}
-	}
 
-	private String fileName;
-	private HashMap<String, String> vars;
-	
-	public ExecuteJob() {
-		super();
-	}
+    static {
+        try {
+            KettleEnvironment.init(false);
+        } catch (KettleException e) {
+            e.printStackTrace();
+        }
+    }
 
-	@Override
-	public void run() {
-		try {
-			info("Esecuzione TASK");
-			debug("Caricamento configurazione kettle");
+    private String fileName;
+    private HashMap<String, String> vars;
 
-			debug("Fine caricamento configurazione kettle");
-			JobMeta jobMeta = new JobMeta(fileName, null, null);
+    public ExecuteJob() {
+        super();
+    }
 
-			// Creazione job
-			
-			Job job = new Job(null, jobMeta);
-			job.getJobMeta().setInternalKettleVariables(job);
+    @Override
+    public void run() {
+        try {
+            info("Esecuzione TASK");
+            debug("Caricamento configurazione kettle");
 
-			if (log.isDebugEnabled())
-				job.setLogLevel(LogLevel.DEBUG);
-			else {
-				if (log.isInfoEnabled())
-					job.setLogLevel(LogLevel.BASIC);
-			}
-			
-			
-			job.setName(Thread.currentThread().getName());
-			
-			
-			if(vars!=null){
-				for (String var : vars.keySet()) {
-					job.setVariable(var,vars.get(var));
-				}	
-			}
+            debug("Fine caricamento configurazione kettle");
+            JobMeta jobMeta = new JobMeta(fileName, null, null);
 
-			// Esecuzione del Thread kettle
-			job.start();
-			job.waitUntilFinished();
+            // Creazione job
+            Job job = new Job(null, jobMeta);
+            job.getJobMeta().setInternalKettleVariables(job);
 
-			if (job.getResult() != null && job.getResult().getNrErrors() != 0) {
-				warn("Errore nel Task relativo al Job " + fileName);
-			}
+            if (log.isDebugEnabled()) {
+                job.setLogLevel(LogLevel.DEBUG);
+            } else {
+                if (log.isInfoEnabled()) {
+                    job.setLogLevel(LogLevel.BASIC);
+                }
+            }
 
-			// Mark del job come terminato
-			job.setFinished(true);
+            job.setName(Thread.currentThread().getName());
 
-			// Ripulitura
-			jobMeta.eraseParameters();
-			job.eraseParameters();
+            if (vars != null) {
+                for (String var : vars.keySet()) {
+                    job.setVariable(var, vars.get(var));
+                }
+            }
 
-		} catch (Exception e) {
-			error("Eccezione nel Task relativo al Job " + fileName, e);
-		}
+            // Esecuzione del Thread kettle
+            job.start();
+            job.waitUntilFinished();
 
-	}
+            if (job.getResult() != null && job.getResult().getNrErrors() != 0) {
+                warn("Errore nel Task relativo al Job " + fileName);
+            }
 
-	public String getFileName() {
-		return fileName;
-	}
+            // Mark del job come terminato
+            job.setFinished(true);
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-	
+            // Ripulitura
+            jobMeta.eraseParameters();
+            job.eraseParameters();
 
+        } catch (Exception e) {
+            error("Eccezione nel Task relativo al Job " + fileName, e);
+        }
 
-	public HashMap<String, String> getVars() {
-		return vars;
-	}
+    }
 
-	public void setVars(HashMap<String, String> vars) {
-		this.vars = vars;
-	}
+    public String getFileName() {
+        return fileName;
+    }
 
-	public static void main(String[] args) {
-		ExecuteJob job = new ExecuteJob();
-		job.setFileName("/Users/Andrea Riboldi/migration/incremental_migration.kjb");
-		job.run();
-	}
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public HashMap<String, String> getVars() {
+        return vars;
+    }
+
+    public void setVars(HashMap<String, String> vars) {
+        this.vars = vars;
+    }
+
+    public static void main(String[] args) {
+        ExecuteJob job = new ExecuteJob();
+        job.setFileName("/Users/Andrea Riboldi/migration/incremental_migration.kjb");
+        job.run();
+    }
 
 }

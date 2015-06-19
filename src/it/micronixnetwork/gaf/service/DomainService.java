@@ -11,4 +11,8 @@ public interface DomainService {
     
     Domain retriveDomain(String domain)  throws ServiceException;
     
+    void refreshDomains()  throws ServiceException;
+    
+    void clearDomains()  throws ServiceException;
+    
 }

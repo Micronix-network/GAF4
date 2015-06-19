@@ -42,6 +42,7 @@
             <list>
                 <value>it.micronixnetwork.gaf.domain.CardConf</value>
                 <value>it.micronixnetwork.gaf.domain.Menu</value>
+                <value>it.micronixnetwork.gaf.domain.Menu$_Domain</value>
                 <value>it.micronixnetwork.gaf.domain.Card</value>
                 <value>it.micronixnetwork.gaf.domain.Domain</value>
                 <value>it.micronixnetwork.gaf.domain.GafConfig</value>

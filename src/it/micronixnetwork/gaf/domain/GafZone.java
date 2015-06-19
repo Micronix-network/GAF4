@@ -1,95 +1,138 @@
 package it.micronixnetwork.gaf.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import javax.persistence.*;
 
 import java.util.List;
-
+import java.util.Map;
+import org.hibernate.annotations.CollectionOfElements;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  * The persistent class for the gaf_zones database table.
- * 
+ *
  */
 @Entity
-@Table(name="gaf_zones")
+@Table(name = "gaf_zones")
+
 public class GafZone implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+    private static final long serialVersionUID = 1L;
 
-	private Boolean closed;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
-	private Integer height;
+    private Boolean closed;
 
-	private String idDomain;
+    private Integer height;
 
-	private String name;
+    @Column(name="domain")
+    private Integer idDdomain;
 
-	private Integer width;
+    @OneToOne
+    @JoinColumn(name = "domain", insertable = false, updatable = false)
+    private Domain domain;
 
-	//bi-directional many-to-one association to GafZoneCard
-	@OneToMany(mappedBy="zone", cascade={CascadeType.ALL})
-	private List<GafZoneCard> cards;
+    private String name;
 
-	public GafZone() {
-	}
+    private Integer width;
+    
+    @OneToMany(mappedBy = "zone", cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
+    @MapKey(name="cardname")
+    private Map<String, GafZoneCard> cards = new HashMap<>();
 
-	public Integer getId() {
-		return this.id;
-	}
+    public void removeCard(String cardName) {
+        cards.remove(cardName);
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void removeContents() {
+        if (cards == null) {
+            return;
+        }
+        this.cards.clear();
+    }
 
-	public Boolean getClosed() {
-		return this.closed;
-	}
+    public void addCard(GafZoneCard card) {
+        if(card==null || card.getCardname()==null) return;
+        cards.put(card.getCardname(), card);
+    }
 
-	public void setClosed(Boolean closed) {
-		this.closed = closed;
-	}
+    public GafZone() {
+    }
 
-	public Integer getHeight() {
-		return this.height;
-	}
+    public GafZone(String name) {
+        this.name = name;
+    }
 
-	public void setHeight(Integer height) {
-		this.height = height;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public String getIdDomain() {
-		return this.idDomain;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setIdDomain(String idDomain) {
-		this.idDomain = idDomain;
-	}
+    public Boolean getClosed() {
+        return closed;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public void setClosed(Boolean closed) {
+        this.closed = closed;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Integer getHeight() {
+        return height;
+    }
 
-	public Integer getWidth() {
-		return this.width;
-	}
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
 
-	public void setWidth(Integer width) {
-		this.width = width;
-	}
+    public Integer getIdDdomain() {
+        return idDdomain;
+    }
 
-	public List<GafZoneCard> getCards() {
-		return this.cards;
-	}
+    public void setIdDdomain(Integer idDdomain) {
+        this.idDdomain = idDdomain;
+    }
 
-	public void setCards(List<GafZoneCard> cards) {
-		this.cards = cards;
-	}
+    public Domain getDomain() {
+        return domain;
+    }
+
+    public void setDomain(Domain domain) {
+        this.domain = domain;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
+
+    public Map<String, GafZoneCard> getCards() {
+        return cards;
+    }
+
+    public void setCards(Map<String, GafZoneCard> cards) {
+        this.cards = cards;
+    }
+    
+    
 
 }

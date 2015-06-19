@@ -56,3 +56,20 @@ diversi da null, in caso contrario viene prodotto un risultato completo e non pa
 Rimosso il tag PropertyDialog perchè non più usato.
 Aggiunto il metodo warn in GAFService.
 Aggiunta JSONAction per la gestione delle azioni che restituiscono risultati JSON in modo da restituire semplici stringhe in caso di errori (error_json.ftl).
+
+
+Ver 4.2
+Modificata completamente la gestione dei layout di posizionamento delle CARD 
+    - Modiche alla struttura delle tabelle gaf_zones, gaf_cards
+    - Eliminazione completa del supporto alla configurazione via file XML
+    - Riorganizzazione di tutto il codice relativo al LayOutConfigLoader
+
+Moodifica alla politica di gestione delle card non pubblicate, prima non venivano 
+caricate nella pagina (se non si era collegati come configuratore/superAdmin) ora sono 
+caricati ma viene presentata una pagina che visualizza un messaggio di lavori in corso.
+
+Corretta l'internazionalizzazione dei sotto menu, aggiunta
+<#assign label=tag.getText('menu.'+label?lower_case, label)/>
+al main_menu.ftl per la definizione della label nel caso di assenza di
+page action o url.
+

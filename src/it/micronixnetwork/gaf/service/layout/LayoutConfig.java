@@ -4,76 +4,73 @@
  */
 package it.micronixnetwork.gaf.service.layout;
 
-import it.micronixnetwork.gaf.util.xml.XMLObject;
+import it.micronixnetwork.gaf.domain.GafZone;
+import it.micronixnetwork.gaf.domain.GafZoneCard;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
  * @author kobo
  */
-public class LayoutConfig extends XMLObject {
+public class LayoutConfig {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String TAG_NAME = "layout";
-    public static final String name_att = "name";
+    private String name;
+
+    private Integer domain;
+
+    private Map<String, GafZone> zones = new Hashtable<>();
 
     public LayoutConfig() {
-        super(TAG_NAME);
     }
 
     public String getName() {
-        return getAttribute(name_att);
+        return name;
+    }
+
+    public Integer getDomain() {
+        return domain;
     }
 
     public void setName(String name) {
-        addAttribute(name_att, name);
+        this.name = name;
     }
 
-    public void addZone(ZoneConf zone) {
-        this.addContent(zone);
+    public void setDomain(Integer domain) {
+        this.domain = domain;
+    }
+    
+    
+
+    public void addZone(GafZone zone) {
+        zones.put(zone.getName(), zone);
     }
 
-    ZoneConf getZone(String name) {
-        if (name == null) {
-            return null;
-        }
-        @SuppressWarnings("unchecked")
-        List<XMLObject> wds = getChildren("zone");
-        for (XMLObject zone : wds) {
-            if (name.equals(((ZoneConf) zone).getName())) {
-                return (ZoneConf) zone;
-            }
-        }
-        return null;
+    GafZone getZone(String name) {
+        return zones.get(name);
     }
 
     void removeZone(String name) {
-        ZoneConf wd = getZone(name);
-        if (wd != null) {
-            this.removeContent(wd);
-        }
+        zones.remove(name);
     }
 
-    List<ZoneConf> getZones() {
-        @SuppressWarnings("unchecked")
-        List<ZoneConf> result = new ArrayList<ZoneConf>();
-        List<XMLObject> wds = getChildren("zone");
-        for (XMLObject xmlObject : wds) {
-            result.add((ZoneConf) xmlObject);
-        }
-        return result;
+    Collection<GafZone> getZones() {
+        return zones.values();
     }
 
-    public List<CardStatus> getCards() {
-        List<CardStatus> result = new ArrayList<CardStatus>();
-        List<ZoneConf> zones = getZones();
+    public List<GafZoneCard> getCards() {
+        List<GafZoneCard> result = new ArrayList<>();
+        Collection<GafZone> zones = getZones();
         if (zones != null && !zones.isEmpty()) {
-            for (ZoneConf zoneConf : zones) {
-                List<CardStatus> cards = zoneConf.getCards();
+            for (GafZone zoneConf : zones) {
+                Collection<GafZoneCard> cards = zoneConf.getCards().values();
                 if (cards != null && !cards.isEmpty()) {
                     result.addAll(cards);
                 }
@@ -82,13 +79,13 @@ public class LayoutConfig extends XMLObject {
         return result;
     }
 
-    public List<CardStatus> getPlacedCards() {
-        List<CardStatus> result = new ArrayList<CardStatus>();
-        List<ZoneConf> zones = getZones();
+    public List<GafZoneCard> getPlacedCards() {
+        List<GafZoneCard> result = new ArrayList<>();
+        Collection<GafZone> zones = getZones();
         if (zones != null && !zones.isEmpty()) {
-            for (ZoneConf zoneConf : zones) {
+            for (GafZone zoneConf : zones) {
                 if (!zoneConf.getName().equals(LayoutConfigLoader.PARKING_ZONE)) {
-                    List<CardStatus> cards = zoneConf.getCards();
+                    Collection<GafZoneCard> cards = zoneConf.getCards().values();
                     if (cards != null && !cards.isEmpty()) {
                         result.addAll(cards);
                     }
@@ -98,20 +95,32 @@ public class LayoutConfig extends XMLObject {
         return result;
     }
 
-    public HashMap<String, CardStatus> getCardsMap() {
-        HashMap<String, CardStatus> result = new HashMap<String, CardStatus>();
-        List<ZoneConf> zones = getZones();
+    public HashMap<String, GafZoneCard> getCardsMap() {
+        HashMap<String, GafZoneCard> result = new HashMap<String, GafZoneCard>();
+        Collection<GafZone> zones = getZones();
         if (zones != null && !zones.isEmpty()) {
-            for (ZoneConf zoneConf : zones) {
-                List<CardStatus> cards = zoneConf.getCards();
+            for (GafZone zoneConf : zones) {
+                Collection<GafZoneCard> cards = zoneConf.getCards().values();
                 if (cards != null && !cards.isEmpty()) {
-                    for (CardStatus card : cards) {
-                        result.put(card.getName(), card);
+                    for (GafZoneCard card : cards) {
+                        result.put(card.getCardname(), card);
                     }
-
                 }
             }
         }
         return result;
+    }
+    
+    public GafZoneCard getCardFromName(String cardname){
+        Collection<GafZone> zones = getZones();
+        GafZoneCard res=null;
+        if (zones != null && !zones.isEmpty()) {
+            for (GafZone zone : zones) {
+                res=zone.getCards().get(cardname);
+                if(res!=null)
+                    return res;
+            }
+        }
+        return null;
     }
 }

@@ -18,7 +18,7 @@ public class Card implements Serializable {
 
     private String cardname;
 
-    private String domain;
+    private Integer domain;
 
     private String type;
     
@@ -43,11 +43,11 @@ public class Card implements Serializable {
 	this.cardname = cardname;
     }
 
-    public String getDomain() {
+    public Integer getDomain() {
 	return this.domain;
     }
 
-    public void setDomain(String domain) {
+    public void setDomain(Integer domain) {
 	this.domain = domain;
     }
 

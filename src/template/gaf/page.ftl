@@ -98,7 +98,6 @@
 	function stopDrag(source,ui,receiver){
 		//salvataggio stato zone start e end
 		$(receiver).append(ui);
-		save_cards_Order(source);
 		save_cards_Order(receiver);
 		var isVisible = !ui.hasClass('card_closed');
 		var $command=ui.find('.card-header .card-header_commands .cmd1');

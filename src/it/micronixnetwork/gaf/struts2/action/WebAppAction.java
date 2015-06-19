@@ -157,7 +157,7 @@ public class WebAppAction extends BaseAction implements ServletRequestAware, Ser
      * @param cardname il nome univoco, relativamente al dominio, della CARD
      * @return la mappa dei parametri
      */
-    public Map<String, Object> loadCardParams(String domain, String cardname) {
+    public Map<String, Object> loadCardParams(String domain, String cardname) throws ApplicationException{
         if (cardConfService == null) {
             return null;
         }

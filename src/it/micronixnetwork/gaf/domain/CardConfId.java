@@ -14,7 +14,7 @@ public class CardConfId implements Serializable {
 
     private String userid;
 
-    private String domain;
+    private Integer domain;
 
     private String cardname;
 
@@ -24,7 +24,7 @@ public class CardConfId implements Serializable {
     public CardConfId() {
     }
 
-    public CardConfId(String userid, String domain, String cardname, String key) {
+    public CardConfId(String userid, Integer domain, String cardname, String key) {
 	super();
 	this.userid = userid;
 	this.domain = domain;
@@ -32,11 +32,11 @@ public class CardConfId implements Serializable {
 	this.key = key;
     }
 
-    public String getDomain() {
+    public Integer getDomain() {
 	return domain;
     }
 
-    public void setDomain(String domain) {
+    public void setDomain(Integer domain) {
 	this.domain = domain;
     }
 

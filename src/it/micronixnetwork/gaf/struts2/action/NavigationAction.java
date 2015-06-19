@@ -14,9 +14,13 @@ import java.util.Set;
 import javax.servlet.http.HttpSession;
 
 import com.opensymphony.xwork2.ActionContext;
-import it.micronixnetwork.gaf.service.layout.CardStatus;
+import it.micronixnetwork.gaf.domain.GafZoneCard;
+import it.micronixnetwork.gaf.exception.ActionException;
+import it.micronixnetwork.gaf.service.layout.LayoutLoaderException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class NavigationAction extends WebAppAction {
 
@@ -69,7 +73,7 @@ public class NavigationAction extends WebAppAction {
 	String reload=appProperties.getProperty("layout.reload");
 	
 	if(layoutConfigLoader!=null && reload!=null && reload.equals("true")){
-	    layoutConfigLoader.reloadDomain(pageDomain.getId());
+	    layoutConfigLoader.reloadDomain(domain);
 	}
 
 	// Preparazione domainCache e cardModelCache
@@ -129,11 +133,18 @@ public class NavigationAction extends WebAppAction {
     }
     
     
-    public Set<String> getPlaced(){
+    public Set<String> getPlaced() throws ActionException{
         Set<String> result=new HashSet<String>();
-	List<CardStatus> cards=layoutConfigLoader.getLayOutPlacedCARD(domain);
-        for (CardStatus card : cards) {
-            result.add(card.getName());
+        
+	List<GafZoneCard> cards;
+        try {
+            cards = layoutConfigLoader.getLayOutPlacedCARD(domain);
+        } catch (LayoutLoaderException ex) {
+            throw new ActionException(ex);
+        }
+      
+        for (GafZoneCard card : cards) {
+            result.add(card.getCardname());
         }
         return result;
     }

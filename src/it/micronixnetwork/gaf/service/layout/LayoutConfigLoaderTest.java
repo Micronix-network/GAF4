@@ -1,5 +1,6 @@
 package it.micronixnetwork.gaf.service.layout;
 
+import it.micronixnetwork.gaf.domain.Domain;
 import java.util.Collection;
 import java.util.Hashtable;
 
@@ -37,7 +38,7 @@ public class LayoutConfigLoaderTest extends TestRunner {
 		info(lc);
 	    }
 
-	    layoutConfigLoader.save();
+	    //layoutConfigLoader.save();
 
 	    layoutConfigLoader.load();
 	    names = layoutConfigLoader.getLayoutNames();
@@ -57,9 +58,8 @@ public class LayoutConfigLoaderTest extends TestRunner {
 		if (layouts != null) {
 		    for (LayoutConfig layout : layouts.values()) {
 			debug(layout);
-		    }
-		    layoutConfigLoader.setLayouts(layouts);
-		    layoutConfigLoader.save();
+                    }
+		    //layoutConfigLoader.save();
 		}
 	    }
 

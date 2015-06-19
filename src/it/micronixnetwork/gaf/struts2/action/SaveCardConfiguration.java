@@ -72,8 +72,6 @@ public class SaveCardConfiguration extends CardAction {
 		//Ricaricamento modello
 		Map<String,Object> w_params=loadCardParams(domain, getCardId());
 		
-		
-		
 		if(w_params!=null && !w_params.isEmpty()){
 			debug("Trovati: "+w_params.size()+" parametri");
 			Iterator<String> keys=w_params.keySet().iterator();

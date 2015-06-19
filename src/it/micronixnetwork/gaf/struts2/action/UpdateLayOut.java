@@ -1,10 +1,11 @@
 package it.micronixnetwork.gaf.struts2.action;
 
+import it.micronixnetwork.gaf.domain.Domain;
+import it.micronixnetwork.gaf.domain.GafZone;
+import it.micronixnetwork.gaf.domain.GafZoneCard;
 import it.micronixnetwork.gaf.exception.ApplicationException;
-import it.micronixnetwork.gaf.service.layout.CardStatus;
 import it.micronixnetwork.gaf.service.layout.LayoutConfig;
 import it.micronixnetwork.gaf.service.layout.LayoutConfigLoader;
-import it.micronixnetwork.gaf.service.layout.ZoneConf;
 import it.micronixnetwork.gaf.util.StringUtil;
 
 import java.util.ArrayList;
@@ -118,7 +119,13 @@ public class UpdateLayOut extends CardAction {
 	LayoutConfigLoader lcl = getLayoutConfigLoader();
 
 	if (lcl == null) {
-	    throw new ApplicationException(errorMessage());
+	    throw new ApplicationException("<b>LayOutConfigLoader not configured check Spring's context file</b>");
+	}
+        
+        Domain domain=domainService.retriveDomain(layout);
+        
+        if (domain == null) {
+	    throw new ApplicationException("<b>Domain not defined</b>");
 	}
 
 	debug("Prima della cura: \n" + lcl.getLayoutConfig(layout));
@@ -126,32 +133,19 @@ public class UpdateLayOut extends CardAction {
 	switch (optType) {
 	case ZONE_ORDER:
 	    Iterator<String> names = cardsOrder.iterator();
-	    List<CardStatus> new_card_list = new ArrayList<CardStatus>();
 	    while (names.hasNext()) {
-		String wName = names.next();
-		if (wName != null && !wName.trim().equals("")) {
-		    CardStatus wc = lcl.getLayOutCARD(layout, filterName(wName));
-		    if (wc == null) {
-			wc = new CardStatus();
-			wc.setName(filterName(wName));
-			wc.setHidden("false");
-		    }
-		    new_card_list.add(wc);
-		}
-	    }
-	    // Elimina le CARD dalla zono da modificare
-	    lcl.clearZone(layout, zoneName);
-	    if (!new_card_list.isEmpty()) {
-		for (CardStatus cardConf : new_card_list) {
-		    lcl.addCARDConfiguration(layout, zoneName, cardConf, true);
+		String cardName = names.next();
+		if (cardName != null && !cardName.trim().equals("")) {
+		    lcl.addCARDConfiguration(layout, zoneName, filterName(cardName));
 		}
 	    }
 	    break;
 	case ZONE_SIZE:
-	    ZoneConf zone = lcl.getLayoutZone(layout, zoneName);
+	    GafZone zone = lcl.getLayoutZone(layout, zoneName);
 	    // La zona non è ancora stata configurata;
 	    if (zone == null) {
-		zone = new ZoneConf(zoneName);
+		zone = new GafZone(zoneName);
+                zone.setIdDdomain(domain.getId());
 		LayoutConfig lc = lcl.getLayoutConfig(layout);
 		if (lc != null) {
 		    lc.addZone(zone);
@@ -159,29 +153,36 @@ public class UpdateLayOut extends CardAction {
 	    }
 
 	    if (zoneHeight != null) {
-		zone.setHeight(zoneHeight);
+                try{
+                    int h=Integer.parseInt(zoneHeight);
+                    zone.setHeight(h);
+                }catch(Exception ex){}
+		
 	    }
 	    if (zoneWidth != null) {
-		zone.setWidth(zoneWidth);
+                try{
+                    int w=Integer.parseInt(zoneWidth);
+                    zone.setWidth(w);
+                }catch(Exception ex){}
 	    }
 	    if (zoneClosed != null) {
 		if (zoneClosed.equals("true")) {
-		    zone.setClosed("true");
+		    zone.setClosed(Boolean.TRUE);
 		} else {
-		    zone.setClosed("false");
+		    zone.setClosed(Boolean.FALSE);
 		}
 	    }
 
 	    break;
 	case CARD:
-	    CardStatus wc = lcl.getLayOutCARD(layout, cardName);
+	    GafZoneCard wc = lcl.getLayOutCARD(layout, cardName);
 	    debug(wc);
 	    if (wc != null) {
 		if (hidden != null) {
-		    wc.setHidden(hidden);
+		    wc.setHidden(hidden.equals("true"));
 		}
 		if (publish != null) {
-		    wc.setPublished(publish);
+		    wc.setPublished(publish.equals("true"));
 		}
 	    }
 	    break;
@@ -191,7 +192,8 @@ public class UpdateLayOut extends CardAction {
 	}
 
 	debug("Dopo la cura: \n" + lcl.getLayoutConfig(layout));
-	lcl.save();
+        
+	lcl.save(layout);
 	return NONE;
     }
 
@@ -202,8 +204,5 @@ public class UpdateLayOut extends CardAction {
 	return cardName.replaceAll("_card", "");
     }
 
-    private String errorMessage() {
-	StringBuilder sbuild = new StringBuilder("<b>LayOutConfigLoader not configured check Spring's context file</b>");
-	return sbuild.toString();
-    }
+   
 }

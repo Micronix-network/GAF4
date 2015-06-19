@@ -27,6 +27,7 @@
 		
     <#--Patch per correggere il problema di visualizzazione nella parking_zone-->
     <#assign hide=model.hide!true/>
+    <#assign publish=model.published!false/>
     <#if zone=parking_zone>
         <#assign hide=true/>
     </#if>
@@ -37,7 +38,7 @@
         <#assign iconHideClass=icon_show/>
     </#if>
 
-    <#if model.published>
+    <#if publish>
         <#assign iconPublishClass=icon_on/>
     <#else>
         <#assign iconPublishClass=icon_off/>
@@ -58,6 +59,8 @@
             <#if hide>
                 <img class="card_image" src="${ctx}/resource_${model.type}.png.action" onerror="this.onerror=null; this.src='${ctx}/resource_plugin_default.png.action';" />
                 <div class="card_type">${model.type}</div>
+            <#elseif !publish && !super>
+                <img class="card_wip_image" src="${ctx}/resource_progress_in_work.png.action"/>
             <#else>
                 <div id="${model.name}_wait_loading" class="card_wait_load"><span>Waiting..</span></div>
             </#if>
@@ -230,6 +233,7 @@
 
         <#--Funzione Ajax per il caricamento del contenuto della CARD -->
         function load(){
+            <#if publish || super>
             if(!$('#'+id+'_card').hasClass('card_closed')){
                 $('#'+id+'_card .card-content').load(
                     cardAction,{cardId: id},
@@ -241,6 +245,7 @@
                     }
                 )
             }
+            </#if>
         };
 
         <#--metodo di ridisegno della CARD -->

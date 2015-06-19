@@ -1,7 +1,6 @@
 package it.micronixnetwork.gaf.struts2.gui.component;
 
 import it.micronixnetwork.gaf.exception.ApplicationException;
-import it.micronixnetwork.gaf.service.layout.CardStatus;
 import it.micronixnetwork.gaf.service.layout.LayoutConfigLoader;
 import it.micronixnetwork.gaf.struts2.gui.model.CardModel;
 import it.micronixnetwork.gaf.struts2.gui.model.CardModelsCache;
@@ -17,9 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 
 
 import com.opensymphony.xwork2.util.ValueStack;
+import it.micronixnetwork.gaf.domain.GafZoneCard;
 
 /**
- * Tag che aggiunge un insieme di CARD in una zona specificata come attributo
+ * Tag che aggiunge un insieme di CARD in una zona specificata
  * 
  * @author kobo
  */
@@ -129,12 +129,10 @@ public class PlaceCards extends GAFGuiComponent {
 
 	// La zona è dichiarata quindi vengono recuperate le CARD definite nella
 	// configurazione
-	List<CardStatus> cardsConf = lcl.getZoneCARDS(layout, zone);
+	List<GafZoneCard> cardsConf = lcl.getZoneCARDS(layout, zone);
 
 	debug("Configurazione della zona: "+zone);
 	debug(lcl.getLayoutZone(layout, zone));
-	
-	
 
 	// Si procede a gestire il caso della parking zone è necessario inserire nel result le CARD
 	// caricate ma non piazzate in nessuna zona e quelle piazzate in zone non esistenti
@@ -154,16 +152,16 @@ public class PlaceCards extends GAFGuiComponent {
 	} else{
         // Per ogni CARD configurata si controlla se è stata caricata nella
 	// pagina
-	for (CardStatus conf : cardsConf) {
-	    if (cardMap.containsKey(conf.getName())) {
+	for (GafZoneCard conf : cardsConf) {
+	    if (cardMap.containsKey(conf.getCardname())) {
 		// La CARD è stata inserita è possibile aggiungerla al risutato
 		// settando i parametri mancanti al modello
-		debug("CARD: "+conf.getName()+" caricata e piazzabile in "+zone);
-		if (isSuper || ("false".equals(conf.getHidden()) && ("true".equals(conf.getPublished())))) {
-		    CardModel model = (CardModel) cardMap.get(conf.getName());
+		debug("CARD: "+conf.getCardname()+" caricata e piazzabile in "+zone);
+		if (!conf.getHidden()) {
+		    CardModel model = (CardModel) cardMap.get(conf.getCardname());
 		    model.setZone(zone);
-		    model.setHide("true".equals(conf.getHidden()));
-		    model.setPublished("true".equals(conf.getPublished()));
+		    model.setHide(conf.getHidden());
+		    model.setPublished(conf.getPublished());
 		    result.add(model);
 		}
 	    } 
