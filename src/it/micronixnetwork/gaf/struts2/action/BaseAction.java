@@ -29,6 +29,7 @@ public abstract class BaseAction extends ActionSupport {
     private static final long serialVersionUID = 1L;
 
     public static String DEV_MODE_PROP = "app.devMode";
+    public static String DYNA_MENU_PROP = "app.dynamic.menu";
     public static String THEME_PROP = "app.theme";
     public static String APPNAME_PROP = "app.name";
     public static String ACTIVE_USECASE = "it.td.struts2.paf.action.BaseAction.ACTIVE_USECASE";
@@ -36,7 +37,6 @@ public abstract class BaseAction extends ActionSupport {
 
     protected Properties appProperties;
 
-   
     private final Log log = LogFactory.getLog(getClass());
 
     private String activeUseCase;
@@ -97,6 +97,19 @@ public abstract class BaseAction extends ActionSupport {
 	}
 	return false;
     }
+    
+    /**
+     * Ritorna se il menu deve essere ricaricato ogni volta 
+     * @return
+     */
+    public Boolean getDynaMenu() {
+	String value = appProperties.getProperty(DYNA_MENU_PROP);
+	if (!StringUtil.EmptyOrNull(value)) {
+	    return value.equals("true");
+	}
+	return false;
+    }
+    
 
     /**
      * Ritorna il nome del tema utilizzato il default è 'default'

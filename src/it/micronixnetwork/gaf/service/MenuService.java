@@ -12,11 +12,4 @@ public interface MenuService {
      */
     Menu getMenu(boolean refresh) throws ServiceException;
     
-    
-    /**
-     * Salva un menu sul db
-     * @param menu il menu da salvare
-     */
-    void saveMenu(Menu menu) throws ServiceException;;
-    
 }

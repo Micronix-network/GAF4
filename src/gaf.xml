@@ -142,12 +142,6 @@
                 <param name="stringValue">${message}</param>
             </result>
         </action>
-		
-        <action name="importProperites" class="it.micronixnetwork.gaf.struts2.action.ImportCardConfiguration">
-            <result name="success" type="string">
-                <param name="stringValue">${jsCode}</param>
-            </result>
-        </action>
 	
 		
     </package>

@@ -66,10 +66,12 @@ Modificata completamente la gestione dei layout di posizionamento delle CARD
 
 Moodifica alla politica di gestione delle card non pubblicate, prima non venivano 
 caricate nella pagina (se non si era collegati come configuratore/superAdmin) ora sono 
-caricati ma viene presentata una pagina che visualizza un messaggio di lavori in corso.
+caricate ma viene presentata una pagina che visualizza un messaggio di lavori in corso.
 
 Corretta l'internazionalizzazione dei sotto menu, aggiunta
 <#assign label=tag.getText('menu.'+label?lower_case, label)/>
 al main_menu.ftl per la definizione della label nel caso di assenza di
 page action o url.
-
+Aggiunta la gestione del del parametro applicativo "app.dynamic.menu" che permette di
+specificare nell'application.properties se il menu di una pagina deve essere ricaricato
+ad ogni aggrionamento

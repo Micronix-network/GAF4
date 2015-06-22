@@ -21,9 +21,4 @@ public class MenuServiceImpl extends HibernateSupport implements MenuService{
 	return menu;
     }
 
-    @Override
-    public void saveMenu(Menu menu) throws ServiceException {
-	// TODO Auto-generated method stub
-    }
-
 }

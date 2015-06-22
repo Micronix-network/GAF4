@@ -10,24 +10,24 @@
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
                            
     <!-- Proprietà applicative -->
-  	<bean id="appProperties" 
-          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+    <bean id="appProperties" 
+              class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="singleton" value="true"/>
-		<property name="location" value="/WEB-INF/app.properties"/>
-	</bean>
+        <property name="location" value="/WEB-INF/app.properties"/>
+    </bean>
 	
-	<!-- Palceholder per l'utilizzo delle proprietà applicative nei file di contesto SPRING -->
-	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    	<property name="location" value="/WEB-INF/app.properties" />
-  	</bean>                        
+    <!-- Palceholder per l'utilizzo delle proprietà applicative nei file di contesto SPRING -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="/WEB-INF/app.properties" />
+    </bean>                        
 
 	
-	<bean id="appDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName" value="java:comp/env/jdbc/${app.data.source}" />
-	</bean>
+    <bean id="appDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/jdbc/${app.data.source}" />
+    </bean>
     
     <bean  id="sessionFactory"
-            class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+           class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
         <property name="dataSource" ref="appDataSource"/>
         <property name="hibernateProperties">
             <props>
@@ -53,7 +53,7 @@
         
         <property name="packagesToScan">
             <list>
-            	<value>it.micronixnetwork.application.**.domain</value>
+                <value>it.micronixnetwork.application.**.domain</value>
                 <value>**.domain</value>
             </list>
         </property>

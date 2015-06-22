@@ -214,7 +214,7 @@ public class WebAppAction extends BaseAction implements ServletRequestAware, Ser
      */
     public Menu getMainMenu() {
         try {
-            return menuService.getMenu(false);
+            return menuService.getMenu(getDynaMenu());
         } catch (ServiceException e) {
             error("Menu error", e);
         }
