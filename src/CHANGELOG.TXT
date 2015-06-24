@@ -49,7 +49,7 @@ Modificata la macro 'codeMirror', aggiunto il controllo sulla visibilità del co
 
 Ver 4.1
 Aggiunto il metodo getDomainCardIds() in WebAppAction per il recupero delle Card del dominio corrente.
-Modificato il metodo createOrderBy() di HibernateSmartySearchEngine per la gestione della rimozione esplicita
+Modificato il metodo createOrderBy() di HibernateSmartySearchEngine per la gestione esplicita
 dell'ordinamento direzione "none".
 Modificato il comportamento dell'HibernateSmartySearchEngine ora è necessario che entrambi i valori di page e size siano
 diversi da null, in caso contrario viene prodotto un risultato completo e non paginato.
@@ -75,3 +75,10 @@ page action o url.
 Aggiunta la gestione del del parametro applicativo "app.dynamic.menu" che permette di
 specificare nell'application.properties se il menu di una pagina deve essere ricaricato
 ad ogni aggrionamento
+
+Ver 4.21
+Correzione
+    QueryService metodi search e uniqueResult: 
+        se la mappa dei parametri è diversa da null
+        si controlla se la sua dimensione è >0, in caso contrario non si fa nemmeno 
+        la quesry e si ritorna null

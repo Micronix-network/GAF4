@@ -25,6 +25,7 @@ public class QueryServiceImpl extends HibernateSupport implements QueryService {
 	    q = createQuery(query);
 	}
 	if (values != null) {
+            if(values.size()==0) return null;
 	    for (String key : values.keySet()) {
 		setParameter(q, values.get(key), key);
 	    }
@@ -41,6 +42,7 @@ public class QueryServiceImpl extends HibernateSupport implements QueryService {
 	    q = createQuery(query);
 	}
 	if (values != null) {
+            if(values.size()==0) return null;
 	    for (String key : values.keySet()) {
 		setParameter(q, values.get(key), key);
 	    }
