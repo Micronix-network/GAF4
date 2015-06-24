@@ -62,16 +62,19 @@ public class QueryServiceImpl extends HibernateSupport implements QueryService {
 	}
 
 	if (value == null) {
+            query.setParameter(key, value);
 	    return;
 	}
 
 	if (value instanceof String) {
 	    if (((String) value).trim().equals("")) {
+                query.setParameter(key, null);
 		return;
 	    }
 	}
 	if (value instanceof Character) {
 	    if (value.toString().trim().equals("")) {
+                query.setParameter(key, null);
 		return;
 	    }
 	}

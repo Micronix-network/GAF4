@@ -78,7 +78,14 @@ ad ogni aggrionamento
 
 Ver 4.21
 Correzione
-    QueryService metodi search e uniqueResult: 
+    QueryService metodi search, setParameter e uniqueResult: 
         se la mappa dei parametri è diversa da null
         si controlla se la sua dimensione è >0, in caso contrario non si fa nemmeno 
-        la quesry e si ritorna null
+        la query e si ritorna null.
+        Nel setParameter è stata aggiunta la gestione del setting a null dei parametri 
+        nei seguenti casi
+            1) valore null del parametro
+            2) String vuota ""
+            3) Carattere vuoto ''
+
+
