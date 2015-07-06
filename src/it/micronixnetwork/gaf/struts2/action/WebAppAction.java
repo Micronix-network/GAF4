@@ -22,7 +22,6 @@ import it.micronixnetwork.gaf.util.StringUtil;
 import it.micronixnetwork.gaf.util.Struts2Util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -41,8 +40,8 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
 import com.opensymphony.xwork2.ActionContext;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -225,17 +224,18 @@ public class WebAppAction extends BaseAction implements ServletRequestAware, Ser
      * Esegue una query sql utilizzando il DataSouce applicativo
      *
      * @param query la query da eseguire
+     * @param filters i parametri della queri
      * @param unique indica se il risutato è una lista di valori o un singolo
      * elemento
      * @return una lista di valori o un singolo risultato
      */
-    public Object executeSQLQuery(String query, boolean unique) {
+    public Object executeSQLQuery(String query, HashMap<String,Object> filters, boolean unique) {
         if (queryService != null) {
             try {
                 if (!unique) {
-                    return queryService.search(query, null, true);
+                    return queryService.search(query, filters, true);
                 } else {
-                    return queryService.uniqueResult(query, null, true);
+                    return queryService.uniqueResult(query, filters, true);
                 }
             } catch (ServiceException e) {
                 error("executeSQL error", e);
@@ -248,17 +248,18 @@ public class WebAppAction extends BaseAction implements ServletRequestAware, Ser
      * Esegue una query hql utilizzando il DataSouce applicativo
      *
      * @param query la query da eseguire
+     * @param filters i parametri della queri
      * @param unique indica se il risutato è una lista di valori o un singolo
      * elemento
      * @return una lista di valori o un singolo risultato
      */
-    public Object executeHQLQuery(String query, boolean unique) {
+    public Object executeHQLQuery(String query, HashMap<String,Object> filters,boolean unique) {
         if (queryService != null) {
             try {
                 if (!unique) {
-                    return queryService.search(query, null, false);
+                    return queryService.search(query, filters, false);
                 } else {
-                    return queryService.uniqueResult(query, null, false);
+                    return queryService.uniqueResult(query, filters, false);
                 }
             } catch (ServiceException e) {
                 error("executeSQL error", e);
@@ -266,6 +267,32 @@ public class WebAppAction extends BaseAction implements ServletRequestAware, Ser
         }
         return null;
     }
+    
+    /**
+     * Esegue una query hql utilizzando il DataSouce applicativo
+     *
+     * @param query la query da eseguire
+     * @param unique indica se il risutato è una lista di valori o un singolo
+     * elemento
+     * @return una lista di valori o un singolo risultato
+     */
+    public Object executeHQLQuery(String query,boolean unique) {
+        return executeHQLQuery(query,null,unique);
+    }
+    
+    /**
+     * Esegue una query sql utilizzando il DataSouce applicativo
+     *
+     * @param query la query da eseguire
+     * @param unique indica se il risutato è una lista di valori o un singolo
+     * elemento
+     * @return una lista di valori o un singolo risultato
+     */
+    public Object executeSQLQuery(String query, boolean unique) {
+        return executeSQLQuery(query,null,unique) ;
+    }
+    
+    
 
     /**
      * Restituisce tutti i ruoli definiti nell'applicativo

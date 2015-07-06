@@ -4,15 +4,10 @@
  */
 package it.micronixnetwork.gaf.struts2.action;
 
-import it.micronixnetwork.gaf.domain.CardConf;
-import it.micronixnetwork.gaf.exception.ActionException;
 import it.micronixnetwork.gaf.exception.ApplicationException;
 import it.micronixnetwork.gaf.struts2.gui.model.CardModel;
 import it.micronixnetwork.gaf.struts2.gui.model.CardModelsCache;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -84,8 +79,7 @@ public class CardAction extends WebAppAction implements AjaxAction {
 	return result;
     }
     
-    
-
+   
     /**
      * Restituisce il modello di una CARD
      * 
@@ -111,30 +105,6 @@ public class CardAction extends WebAppAction implements AjaxAction {
     @Override
     protected String exe() throws ApplicationException {
 	return SUCCESS;
-    }
-
-    /**
-     * Ritorna la lista delle CARD (dominio,nome) dello stesso tipo della CARD
-     * corrente
-     * 
-     * @return
-     */
-    public List<CardConf> getCardsWithSameType() throws ActionException {
-	CardModel cardModel = getCardModel();
-	if (cardModel == null)
-	    return null;
-	String sql = "Select c.id.domain,c.id.cardname From CardConf c where c.type=:type GROUP BY c.id.domain,c.id.cardname ";
-	HashMap<String, Object> values = new HashMap<String, Object>();
-	if (cardModel.getType() != null) {
-	    values.put("type", cardModel.getType());
-	    try {
-		return queryService.search(sql, values, false);
-	    } catch (Exception e) {
-		error("Query error: ",e);
-		throw new ActionException(e);
-	    }
-	}
-	return new ArrayList<CardConf>(0);
     }
 
 }

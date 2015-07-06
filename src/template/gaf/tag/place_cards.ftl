@@ -120,15 +120,32 @@
     <script type="text/javascript">
         
     var ${model.name}_card = new (function(){
+        
         var id='${model.name}';
+        this.id=id;
+        
+        var type='${model.type}'
+        this.type=type;
+        
         var cardAction='${card_action_url}';
-
+        this.cardAction=cardAction;
+        
         var card_title='${title}';
+        this.cardAction=cardAction;
+        
         var card_help=${help};
+        this.card_help=card_help;
+        
         var card_prop=${prop};
+        this.card_prop=card_prop;
+        
         var card_h=184;
+        this.card_h=card_h;
+        
         var card_w=130;
-
+        this.card_w=card_w;
+        
+    
         function init(){
             jQuery.cardsStack.off('${model.name}_card_refresh');
             jQuery.cardsStack.on('${model.name}_card_refresh', function() {load()});
@@ -266,20 +283,18 @@
                 };
             };
         };
+        
+        this.refresh=refresh;
+        function refresh(){
+            var isVisible = !$('#'+id+'_card').hasClass('card_closed');
+            if(isVisible){
+                $('#'+id+'_card .card-content').empty();
+                load();
+                $('#'+id+'_card .card-content').show();
+            };
+        };
+        
 
-        <#--metodo per il refresh della card è specifico per ogni card e implica l'impelemtazione della funzione [nome_card]_contentRefresh-->
-        this.contentRefresh=contentRefresh;
-        function contentRefresh(){
-            try{
-                ${model.name}_contentRefresh();
-            }catch(err1){
-                try{
-                    console.log(err1);
-                }catch(err2){
-                    alert(err1);
-                }
-            }
-        }
         init();
     })();
 		

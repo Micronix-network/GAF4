@@ -89,3 +89,18 @@ Correzione
             3) Carattere vuoto ''
 
 
+Ver 4.22
+Modifica 
+- Aggiunto il type all'oggetto javascript che rappresenta una CARD e modificato il metodo
+    di passaggio dei parametri per la funzione di ricezione degli eventi di una CARD
+- Aggiunta la libreria di macro events.ftl.
+    inserita la macro utilizzata dalle CARD per notificare gli eventi agli ascoltatori 'notify_observer'
+- Rimossi i riferimenti a kettle e il Thread job launcher.
+    
+
+Ver 4.23
+Modifica 
+- Rimosso dalla CarcAction il metodo per il recupero delle CARD dello stesso tipo della card corrente.
+- Aggiunti i seguenti metodi a WebAppAction  
+        public Object executeHQLQuery(String query, HashMap<String,Object> filters,boolean unique)
+        public Object executeSQLQuery(String query, HashMap<String,Object> filters,boolean unique)
